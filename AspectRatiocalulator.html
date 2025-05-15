@@ -7,6 +7,8 @@
     body {
       font-family: Arial, sans-serif;
       padding: 20px;
+      max-width: 400px;
+      margin: auto;
     }
     .input-group {
       margin-bottom: 1rem;
@@ -14,6 +16,14 @@
     label {
       display: inline-block;
       width: 80px;
+    }
+    input {
+      width: 100px;
+      padding: 5px;
+    }
+    button {
+      margin-top: 10px;
+      padding: 6px 12px;
     }
     #visual {
       border: 1px solid #000;
@@ -24,6 +34,7 @@
       display: flex;
       align-items: center;
       justify-content: center;
+      transition: all 0.3s ease;
     }
   </style>
 </head>
@@ -37,27 +48,38 @@
     <label for="height">Height:</label>
     <input type="number" id="height" value="10" min="1" />
   </div>
-  <button onclick="calculateRatio()">Calculate</button>
+  <button id="calculateBtn">Calculate</button>
 
   <p id="ratioText">Your aspect ratio is:</p>
   <div id="visual" style="width: 100px; height: 100px;">Example</div>
 
   <script>
+    function gcd(a, b) {
+      return b === 0 ? a : gcd(b, a % b);
+    }
+
     function calculateRatio() {
-      const width = parseFloat(document.getElementById('width').value);
-      const height = parseFloat(document.getElementById('height').value);
-      const ratio = (width / height).toFixed(2);
-      const gcd = (a, b) => b === 0 ? a : gcd(b, a % b);
-      const divisor = gcd(width, height);
-      const simplifiedWidth = width / divisor;
-      const simplifiedHeight = height / divisor;
+      const widthInput = document.getElementById('width');
+      const heightInput = document.getElementById('height');
+      const width = parseFloat(widthInput.value);
+      const height = parseFloat(heightInput.value);
+
+      if (!width || !height || width <= 0 || height <= 0) {
+        document.getElementById('ratioText').innerText = "Please enter valid numbers.";
+        return;
+      }
+
+      const simplifiedGCD = gcd(width, height);
+      const simpleW = width / simplifiedGCD;
+      const simpleH = height / simplifiedGCD;
+      const decimalRatio = (width / height).toFixed(2);
 
       document.getElementById('ratioText').innerText =
-        `Your aspect ratio is: ${simplifiedWidth}:${simplifiedHeight} or ${ratio}:1`;
+        `Your aspect ratio is: ${simpleW}:${simpleH} or ${decimalRatio}:1`;
 
+      // Scale for visualization
       const maxSize = 200;
       let visWidth, visHeight;
-
       if (width >= height) {
         visWidth = maxSize;
         visHeight = (height / width) * maxSize;
@@ -67,11 +89,13 @@
       }
 
       const visual = document.getElementById('visual');
-      visual.style.width = visWidth + "px";
-      visual.style.height = visHeight + "px";
+      visual.style.width = visWidth + 'px';
+      visual.style.height = visHeight + 'px';
     }
 
-    calculateRatio(); // Initial
+    // Attach event listener
+    document.getElementById('calculateBtn').addEventListener('click', calculateRatio);
   </script>
 </body>
 </html>
+
