@@ -2,39 +2,79 @@
 <html lang="en">
 <head>
   <meta name='robots' content='noindex,nofollow' />
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
   <style>
     body {
-      font-family: Montserrat;
+      font-family: 'Montserrat', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
       padding: 20px;
       max-width: 400px;
-      margin: auto;
+      margin: 20px auto;
+      color: #222;
+      background: #fafafa;
+      text-align: left;
     }
     .input-group {
-      margin-bottom: 1rem;
+      margin-bottom: 1.2rem;
+      display: flex;
+      align-items: center;
+      gap: 12px;
     }
     label {
-      display: inline-block;
-      width: 80px;
+      width: 130px;
+      font-weight: 600;
+      font-size: 0.95rem;
+      color: #444;
     }
-    input {
+    input[type="number"] {
       width: 100px;
-      padding: 5px;
+      padding: 8px 10px;
+      font-size: 1rem;
+      border: 1.5px solid #ccc;
+      border-radius: 6px;
+      transition: border-color 0.25s ease;
+    }
+    input[type="number"]:focus {
+      outline: none;
+      border-color: #e52827;
+      box-shadow: 0 0 6px rgba(229, 40, 39, 0.3);
     }
     button {
       margin-top: 10px;
-      padding: 6px 12px;
+      padding: 10px 18px;
+      font-size: 1rem;
+      font-weight: 600;
+      color: white;
+      background-color: #e52827;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+      user-select: none;
+    }
+    button:hover {
+      background-color: #b71c1c;
+    }
+    #ratioText {
+      margin-top: 20px;
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: #333;
+      min-height: 24px;
     }
     #visual {
-      border: 1px solid #000;
-      margin-top: 1rem;
-      background: #f0f0f0;
+      border-radius: 8px;
+      border: 2px solid #e52827;
+      margin-top: 16px;
+      background: linear-gradient(135deg, #f9d5d5 0%, #f2a3a3 100%);
       font-size: 14px;
-      color: #333;
+      color: #8b0000;
       display: flex;
       align-items: center;
       justify-content: center;
+      font-weight: 700;
+      box-shadow: 0 4px 12px rgba(229, 40, 39, 0.15);
       transition: all 0.3s ease;
+      user-select: none;
     }
   </style>
 </head>
@@ -76,7 +116,6 @@
       document.getElementById('ratioText').innerText =
         `Your aspect ratio is: ${simpleW}:${simpleH} or ${decimalRatio}:1`;
 
-      // Scale for visualization
       const maxSize = 200;
       let visWidth, visHeight;
       if (width >= height) {
@@ -92,8 +131,8 @@
       visual.style.height = visHeight + 'px';
     }
 
-    // Attach event listener
     document.getElementById('calculateBtn').addEventListener('click', calculateRatio);
   </script>
 </body>
 </html>
+
